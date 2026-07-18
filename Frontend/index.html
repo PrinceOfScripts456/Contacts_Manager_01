@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts</title>
+    <!--
+      Sets data-theme on <html> synchronously, before the browser paints
+      anything and before React ever mounts. Without this, the tag above
+      always started as "light", so on a device with dark mode enabled
+      the page flashed light for a frame and then jumped to dark once
+      useTheme()'s effect ran after mount. Reading localStorage/matchMedia
+      here — inline, blocking, pre-paint — means the very first frame is
+      already the correct theme, so there's nothing to "switch" and no
+      flash. It also means cards and background never appear to update at
+      different times on load, since both are governed by the same
+      [data-theme] CSS from frame one; useTheme() just keeps this
+      attribute in sync afterwards when the user actually toggles it.
+    -->
+    <script>
+        (function () {
+            try {
+                var saved = localStorage.getItem('cm-theme');
+                var dark = saved ? saved === 'dark' : window.matchMedia('(prefers-color-scheme:dark)').matches;
+                document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+            } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>

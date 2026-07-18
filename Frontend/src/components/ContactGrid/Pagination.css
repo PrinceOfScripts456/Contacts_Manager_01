@@ -1,0 +1,143 @@
+/* ─── Pagination ─── */
+.pagination-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    margin-top: 24px;
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.page-btn {
+    min-width: 34px;
+    height: 34px;
+    padding: 0 8px;
+    border-radius: var(--r);
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--dur) var(--ease);
+}
+
+.page-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.page-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.page-btn:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+.page-nav {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.page-ellipsis {
+    color: var(--text3);
+    font-size: 13px;
+    padding: 0 4px;
+    user-select: none;
+}
+
+/* Separate row below the on-screen pager for fetching a different batch
+   from the backend entirely (see loadServerBatch in useContacts.js).
+   Visually set apart with a top border/padding so it doesn't read as
+   part of the same 1,2,3…N control — it's a distinctly bigger action
+   (a real network request that replaces what's loaded), not another
+   page flip. */
+.batch-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+}
+
+.batch-btn {
+    height: 36px;
+    padding: 0 16px;
+    border-radius: var(--r);
+    border: 1.5px solid var(--border);
+    background: var(--surface2);
+    color: var(--text2);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--theme-transition), transform var(--dur) var(--ease);
+    white-space: nowrap;
+}
+
+.batch-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.batch-btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.pagination-loading-more {
+    text-align: center;
+    color: var(--text3);
+    font-size: 12px;
+    font-weight: 600;
+    animation: pagination-pulse 1.3s ease-in-out infinite;
+}
+
+@keyframes pagination-pulse {
+
+    0%,
+    100% {
+        opacity: .55;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pagination-loading-more {
+        animation: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-btn {
+        min-width: 30px;
+        height: 30px;
+        font-size: 12px;
+    }
+
+    .batch-btn {
+        flex: 1 1 auto;
+        font-size: 12.5px;
+        padding: 0 10px;
+    }
+}

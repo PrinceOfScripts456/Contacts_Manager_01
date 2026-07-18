@@ -1,0 +1,62 @@
+/* ─── Blocking overlay (export/import in progress) ─── */
+.blocking-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 12, 24, .35);
+    backdrop-filter: blur(2px);
+    animation: blocking-fade-in .2s var(--ease);
+}
+
+.blocking-overlay-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 32px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.blocking-spinner {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    animation: blocking-spin .8s linear infinite;
+}
+
+.blocking-overlay-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text2);
+}
+
+@keyframes blocking-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes blocking-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .blocking-spinner {
+        animation: none;
+        border-top-color: var(--border);
+    }
+}

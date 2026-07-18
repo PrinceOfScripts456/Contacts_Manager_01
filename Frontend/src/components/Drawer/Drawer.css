@@ -1,0 +1,261 @@
+/* ─── Detail Drawer ─── */
+.drawer-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    pointer-events: none;
+}
+
+.drawer-overlay.open {
+    pointer-events: all;
+}
+
+.drawer-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 12, 24, .4);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    transition: opacity .25s var(--ease);
+}
+
+.drawer-overlay.open .drawer-backdrop {
+    opacity: 1;
+}
+
+.drawer {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 420px;
+    max-width: 100vw;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform .28s var(--ease);
+    overflow: hidden;
+}
+
+.drawer-overlay.open .drawer {
+    transform: translateX(0);
+}
+
+.drawer-header {
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.drawer-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.drawer-hbtns {
+    display: flex;
+    gap: 6px;
+}
+
+.drawer-scroll {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.drawer-hero {
+    padding: 24px 24px 20px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+}
+
+.drawer-hero-bg {
+    position: absolute;
+    inset: 0;
+    opacity: .07;
+}
+
+[data-theme="dark"] .drawer-hero-bg {
+    opacity: .15;
+}
+
+.drawer-hero-av {
+    width: 68px;
+    height: 68px;
+    font-size: 24px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.drawer-hero-info {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+}
+
+.drawer-hero-name {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -.3px;
+    color: var(--text);
+}
+
+.drawer-hero-role {
+    font-size: 13px;
+    color: var(--text2);
+    margin-top: 3px;
+}
+
+.drawer-quick-btns {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.quick-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: var(--r);
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--dur) var(--ease);
+    position: relative;
+}
+
+.quick-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.quick-btn svg {
+    width: 13px;
+    height: 13px;
+}
+
+.drawer-body {
+    padding: 20px 24px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.d-section-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    color: var(--text3);
+    margin-bottom: 8px;
+}
+
+.d-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 9px 12px;
+    border-radius: var(--r);
+    transition: var(--theme-transition);
+}
+
+.d-row:hover {
+    background: var(--surface2);
+}
+
+.d-row-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.d-row-icon svg {
+    width: 14px;
+    height: 14px;
+}
+
+.d-row-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.d-row-label {
+    font-size: 11px;
+    color: var(--text3);
+    margin-bottom: 2px;
+}
+
+.d-row-val {
+    font-size: 14px;
+    font-family: var(--mono);
+    color: var(--text);
+    word-break: break-all;
+}
+
+.d-row-val a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.d-row-val a:hover {
+    text-decoration: underline;
+}
+
+.d-row-val.plain {
+    font-family: var(--sans);
+    word-break: normal;
+    line-height: 1.5;
+    color: var(--text2);
+}
+
+/* Used for "No date recorded" (and similar) placeholders — visually
+   distinct (muted + italic) from a real value, so it never reads as
+   actual data at a glance. */
+.d-row-val-empty {
+    color: var(--text3);
+    font-style: italic;
+}
+
+.d-type-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    font-family: var(--sans);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    padding: 1px 6px;
+    border-radius: 5px;
+    background: var(--surface2);
+    color: var(--text3);
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
+@media (max-width: 680px) {
+    .drawer {
+        width: 100%;
+    }
+}

@@ -1,0 +1,249 @@
+/* ─── Top Bar ─── */
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 28px;
+    min-height: 60px;
+    backdrop-filter: blur(12px);
+}
+
+.topbar-brand {
+    font-size: 17px;
+    font-weight: 700;
+    letter-spacing: -.4px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.topbar-brand-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: inline-block;
+}
+
+.topbar-sep {
+    width: 1px;
+    height: 22px;
+    background: var(--border);
+    flex-shrink: 0;
+}
+
+.search-wrap {
+    flex: 1 1 180px;
+    min-width: 0;
+    max-width: 380px;
+    position: relative;
+}
+
+.search-wrap svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    pointer-events: none;
+}
+
+.search-input {
+    width: 100%;
+    height: 38px;
+    padding: 0 12px 0 38px;
+    border-radius: var(--r);
+    border: 1.5px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    outline: none;
+    transition: var(--theme-transition);
+}
+
+.search-input:focus {
+    border-color: var(--accent);
+    background: var(--surface);
+}
+
+.search-input::placeholder {
+    color: var(--text3);
+}
+
+.topbar-right {
+    margin-left: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+/* View Toggle */
+.view-toggle {
+    display: flex;
+    gap: 2px;
+    background: var(--surface2);
+    border-radius: var(--r);
+    padding: 3px;
+}
+
+.view-btn {
+    width: 32px;
+    height: 28px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--dur) var(--ease);
+    position: relative;
+}
+
+.view-btn:hover {
+    color: var(--text2);
+}
+
+.view-btn.active {
+    background: var(--surface);
+    color: var(--accent);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
+}
+
+.btn-add {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 16px;
+    height: 36px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--r);
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--dur) var(--ease);
+    white-space: nowrap;
+}
+
+.btn-add:hover {
+    background: var(--accent-d);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(91, 106, 240, .35);
+}
+
+.btn-add svg {
+    flex-shrink: 0;
+}
+
+/* Theme toggle: the icon remounts (via a React `key` on its wrapper)
+   whenever the theme flips, so this entrance animation plays fresh each
+   time — a small rotate + fade that makes the switch feel deliberate
+   rather than an instant snap between the sun and moon glyphs. */
+.theme-toggle-btn {
+    overflow: hidden;
+}
+
+.theme-icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: theme-icon-in .35s var(--ease);
+}
+
+@keyframes theme-icon-in {
+    from {
+        opacity: 0;
+        transform: rotate(-90deg) scale(.5);
+    }
+
+    to {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .theme-icon-wrap {
+        animation: none;
+    }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 680px) {
+    .topbar {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-areas:
+            "brand actions"
+            "search search";
+        align-items: center;
+        padding: 12px 14px;
+        gap: 10px;
+        height: auto;
+    }
+
+    .topbar-brand {
+        grid-area: brand;
+        font-size: 15px;
+    }
+
+    .topbar-right {
+        grid-area: actions;
+        flex-wrap: nowrap;
+        gap: 6px;
+    }
+
+    .search-wrap {
+        grid-area: search;
+        flex: none;
+        max-width: none;
+        width: 100%;
+    }
+
+    .topbar-sep {
+        display: none;
+    }
+
+    /* Collapse the three-way view toggle into a tighter control so it
+       doesn't compete with the icon buttons for space. */
+    .view-toggle {
+        padding: 2px;
+        gap: 1px;
+    }
+
+    .view-btn {
+        width: 28px;
+        height: 26px;
+    }
+
+    .btn-add span {
+        display: none;
+    }
+
+    .btn-add {
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        gap: 0;
+        justify-content: center;
+        border-radius: var(--r);
+    }
+
+    .btn-add svg {
+        margin: 0;
+    }
+}

@@ -1,0 +1,30 @@
+import upload from "./importContacts.js";
+
+const validateFile = (req, res, next) => {
+
+    upload.single("file")(req, res, (err) => {
+
+        if (err) {
+
+            if (err.code === "LIMIT_FILE_SIZE") {
+                console.error(" validateFile(): file exceeded Max filesize");
+
+                return res.status(400).json({
+                    success: false,
+                    message: "File is too large. Maximum size is 20 MB."
+                });
+            }
+
+            console.error(" validateFile(): ", err);
+
+            return res.status(400).json({
+                success: false,
+                message: "file validation failed"
+            });
+        }
+
+        next();
+    });
+}
+
+export default validateFile;

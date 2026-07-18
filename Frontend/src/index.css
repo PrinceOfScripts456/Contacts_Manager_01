@@ -1,0 +1,393 @@
+/* ─── Reset & Tokens ─── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+input,
+select,
+textarea,
+.contact-card,
+.compact-row,
+.full-card {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+}
+
+:root {
+    --bg: #F4F5FB;
+    --surface: #FFFFFF;
+    --surface2: #EEF0FA;
+    --border: #E2E5F4;
+    --border2: #CDD1EC;
+    --text: #1A1D2E;
+    --text2: #5A6080;
+    --text3: #9BA3C4;
+    --accent: #5B6AF0;
+    --accent-d: #4453D6;
+    --accent-soft: #ECEFFE;
+    --danger: #E8446A;
+    --danger-soft: #FDEEF3;
+    --success: #1DC49A;
+    --mono: 'DM Mono', monospace;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --r: 12px;
+    --r-lg: 18px;
+    --shadow: 0 1px 4px rgba(26, 29, 46, .06), 0 4px 16px rgba(26, 29, 46, .06);
+    --shadow-lg: 0 8px 40px rgba(26, 29, 46, .14);
+    --ease: cubic-bezier(.4, 0, .2, 1);
+    --dur: .2s;
+    /* Shared fragment appended to every element's own `transition` list
+       wherever that element also defines bespoke transitions (hover
+       transforms, shadows, etc). Centralizing it here means every themed
+       surface animates its colors on the exact same properties/timing —
+       previously several components (cards, compact rows, the sort
+       select, search input) defined their OWN `transition` shorthand for
+       their hover/focus effects, which silently overrode the broader `*`
+       rule below and dropped background-color/color from the list. The
+       visible result was some elements re-coloring instantly while
+       others faded — this fragment is the fix, appended everywhere so
+       nothing can silently opt out of a themed property by accident. */
+    --theme-transition: background-color var(--dur) var(--ease),
+        border-color var(--dur) var(--ease),
+        color var(--dur) var(--ease),
+        box-shadow var(--dur) var(--ease),
+        fill var(--dur) var(--ease),
+        stroke var(--dur) var(--ease);
+}
+
+[data-theme="dark"] {
+    --bg: #0D0F18;
+    --surface: #13162A;
+    --surface2: #1C2040;
+    --border: #252A4A;
+    --border2: #323872;
+    --text: #E8EAFF;
+    --text2: #7E89BB;
+    --text3: #49527A;
+    --accent: #7B8CFF;
+    --accent-d: #9FACFF;
+    --accent-soft: #1A2060;
+    --danger: #FF6080;
+    --danger-soft: #2A1030;
+    --shadow: 0 1px 4px rgba(0, 0, 0, .2), 0 4px 16px rgba(0, 0, 0, .25);
+    --shadow-lg: 0 8px 40px rgba(0, 0, 0, .5);
+}
+
+html {
+    height: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+}
+
+/* Smooth, unified theme switching: every element that uses a themed
+   color/border/shadow token transitions together, so flipping dark/light
+   reads as one coordinated fade rather than some parts (body background)
+   easing while everything else (cards, borders, buttons, inputs) snaps
+   instantly. Scoped to a broad-but-bounded set of properties rather than
+   `transition: all` so layout-affecting properties (width, transform,
+   etc.) never accidentally get caught up in this and animate unwantedly.
+   Excludes elements with their own bespoke transitions (buttons, cards,
+   view toggles, etc. already define their own timing for hover/press
+   states) by scoping only to the properties that change on theme swap. */
+*,
+*::before,
+*::after {
+    transition: var(--theme-transition);
+}
+
+#root {
+    min-height: 100%;
+}
+
+/* Wraps the whole app (topbar, page, drawer, modals) so it can be blurred
+   and made non-interactive while an export is being prepared. `inert` (set
+   alongside this class in ContactsPage) handles the actual unfocusable/
+   unclickable behavior; this just adds the visual blur + dimming. */
+.app-shell {
+    min-height: 100%;
+    transition: filter var(--dur) var(--ease);
+}
+
+.app-shell-blocked {
+    filter: blur(3px);
+    pointer-events: none;
+    user-select: none;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border2);
+    border-radius: 99px;
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border2) transparent;
+}
+
+/* ─── Page ─── */
+.page {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 28px 28px 60px;
+}
+
+@media (max-width: 680px) {
+    .page {
+        padding: 16px 14px 60px;
+    }
+}
+
+/* ─── Empty State ─── */
+.empty-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 360px;
+    gap: 14px;
+    text-align: center;
+    color: var(--text3);
+}
+
+.empty-page-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+}
+
+.empty-page h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text2);
+}
+
+.empty-page p {
+    font-size: 14px;
+    line-height: 1.6;
+    max-width: 300px;
+}
+
+/* ─── Avatar (shared base — used by every view) ─── */
+.av {
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #fff;
+    overflow: hidden;
+    user-select: none;
+}
+
+.av img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ─── Shared Buttons ─── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 20px;
+    border-radius: var(--r);
+    border: none;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--dur) var(--ease);
+}
+
+.btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: var(--accent-d);
+}
+
+.btn-ghost {
+    background: var(--surface2);
+    color: var(--text2);
+    border: 1.5px solid var(--border);
+}
+
+.btn-ghost:hover {
+    color: var(--text);
+    border-color: var(--border2);
+}
+
+.btn-red {
+    background: var(--danger-soft);
+    color: var(--danger);
+}
+
+.btn-red:hover {
+    background: var(--danger);
+    color: #fff;
+}
+
+/* Icon Buttons (used in topbar, drawer header, compact rows) */
+.icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--r);
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text2);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--dur) var(--ease);
+    font-size: 15px;
+    position: relative;
+}
+
+.icon-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.icon-btn[title]:hover::after,
+.view-btn[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: -32px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text);
+    color: var(--surface);
+    font-size: 11px;
+    font-family: var(--sans);
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 10;
+}
+
+@media (max-width: 680px) {
+    .icon-btn {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* Toast */
+.toast-wrap {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 900;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    pointer-events: none;
+    width: calc(100vw - 32px);
+    max-width: 480px;
+    padding: 0 16px;
+}
+
+.toast {
+    background: var(--text);
+    color: var(--surface);
+    padding: 10px 20px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--sans);
+    box-shadow: var(--shadow-lg);
+    animation: t-in .25s var(--ease), t-out .25s var(--ease) var(--toast-delay, 2.2s) forwards;
+    max-width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Longer messages (e.g. the storage-cap notice) don't fit on one line —
+   let those specific toasts wrap as a rounded box instead of forcing a
+   pill shape to break awkwardly across two lines. */
+.toast.toast-wrap-text {
+    white-space: normal;
+    text-overflow: clip;
+    border-radius: 16px;
+    line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+    .toast-wrap {
+        bottom: 18px;
+        width: calc(100vw - 24px);
+        padding: 0 12px;
+    }
+
+    .toast {
+        font-size: 12.5px;
+        padding: 9px 16px;
+    }
+}
+
+@keyframes t-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes t-out {
+    to {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}

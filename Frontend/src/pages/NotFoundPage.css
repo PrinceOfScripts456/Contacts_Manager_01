@@ -1,0 +1,56 @@
+.notfound-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  transition: var(--theme-transition);
+}
+
+.notfound-code {
+  font-family: var(--mono);
+  font-size: 96px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+.notfound-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 10px;
+  color: var(--text);
+}
+
+.notfound-text {
+  font-size: 14px;
+  color: var(--text2);
+  max-width: 360px;
+  line-height: 1.6;
+  margin: 0 0 28px;
+}
+
+.notfound-btn {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--r);
+  padding: 12px 24px;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: var(--theme-transition), transform var(--dur) var(--ease), background var(--dur) var(--ease);
+}
+
+.notfound-btn:hover {
+  background: var(--accent-d);
+  transform: translateY(-1px);
+}

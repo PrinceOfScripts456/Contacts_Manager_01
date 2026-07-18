@@ -1,0 +1,94 @@
+/* ─── Loading skeleton ─── */
+.skeleton-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.skeleton-banner {
+    height: 72px;
+    background: var(--surface2);
+    position: relative;
+}
+
+.skeleton-av {
+    position: absolute;
+    bottom: -24px;
+    left: 20px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--border);
+}
+
+.skeleton-body {
+    padding: 32px 20px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.skeleton-line {
+    height: 10px;
+    border-radius: 6px;
+    background: var(--border);
+}
+
+.skeleton-line-name {
+    width: 60%;
+    height: 12px;
+}
+
+.skeleton-line-role {
+    width: 40%;
+}
+
+.skeleton-line-info {
+    width: 75%;
+    margin-top: 4px;
+}
+
+.skeleton-card,
+.skeleton-av,
+.skeleton-line {
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton-banner::after,
+.skeleton-av::after,
+.skeleton-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .35), transparent);
+    animation: skeleton-shimmer 1.6s ease-in-out infinite;
+}
+
+[data-theme="dark"] .skeleton-banner::after,
+[data-theme="dark"] .skeleton-av::after,
+[data-theme="dark"] .skeleton-line::after {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .08), transparent);
+}
+
+@keyframes skeleton-shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .skeleton-banner::after,
+    .skeleton-av::after,
+    .skeleton-line::after {
+        animation: none;
+    }
+}

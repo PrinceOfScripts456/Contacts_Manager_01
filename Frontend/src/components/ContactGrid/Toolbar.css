@@ -1,0 +1,129 @@
+/* ─── Toolbar (sort/filter row) ─── */
+.grid-toolbar {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    margin-bottom: 22px;
+}
+
+.toolbar-main-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.contact-stat {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.contact-stat span {
+    color: var(--text2);
+}
+
+.searching-indicator {
+    flex-shrink: 0;
+    color: var(--accent);
+    background: var(--accent-soft);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 99px;
+    white-space: nowrap;
+    animation: searching-pulse 1.3s ease-in-out infinite;
+}
+
+@keyframes searching-pulse {
+
+    0%,
+    100% {
+        opacity: .55;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .searching-indicator {
+        animation: none;
+    }
+}
+
+.capped-notice {
+    font-size: 12px;
+    color: var(--text3);
+    font-weight: 500;
+    width: 100%;
+}
+
+.toolbar-spacer {
+    flex: 1;
+    min-width: 8px;
+}
+
+.sort-select {
+    flex-shrink: 0;
+    height: 34px;
+    padding: 0 10px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--r);
+    background: var(--surface);
+    color: var(--text2);
+    font-family: var(--sans);
+    font-size: 13px;
+    outline: none;
+    cursor: pointer;
+    transition: var(--theme-transition);
+}
+
+.sort-select:focus {
+    border-color: var(--accent);
+}
+
+.sort-select option {
+    background: var(--surface);
+}
+
+@media (max-width: 680px) {
+    .grid-toolbar {
+        gap: 6px 10px;
+    }
+
+    /* Previously this row wrapped (flex-wrap: wrap), which combined with
+       .toolbar-spacer's flex:1 meant that once the "Searching…" pill
+       appeared, the row's natural content width exceeded the container
+       and the spacer forced the sort-select onto its own line by itself
+       — stat + pill on row one, select stranded on row two. Instead:
+       stop wrapping and let .contact-stat (the only text of variable,
+       non-essential length) shrink and ellipsis, while the searching
+       pill and sort-select — both fixed-size, always-needed controls —
+       stay put on a single row at all times. */
+    .toolbar-main-row {
+        flex-wrap: nowrap;
+    }
+
+    .contact-stat {
+        flex: 1 1 auto;
+    }
+
+    .toolbar-spacer {
+        flex: 0 0 auto;
+        min-width: 0;
+    }
+}
+
+@media (max-width: 420px) {
+    .sort-select {
+        font-size: 12px;
+        padding: 0 8px;
+    }
+}
